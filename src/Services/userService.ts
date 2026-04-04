@@ -4,7 +4,7 @@ import type {
   User,
   UserStatus,
 } from "../Types/userTypes";
-import http from "./htppService";
+import http from "./httpService";
 
 export const getUser = async (): Promise<{ user: User }> => {
   const res = await http.get<ApiResponse<{ user: User }>>("/user/profile");

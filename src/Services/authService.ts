@@ -5,7 +5,7 @@ import type {
   GetOtpRequest,
 } from "../Types/authTypes";
 import type { ApiResponse, EmptyResponse } from "../Types/globalTypes";
-import http from "./htppService";
+import http from "./httpService";
 
 export const getOtpApi = async (
   data: GetOtpRequest,
