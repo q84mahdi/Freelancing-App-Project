@@ -1,3 +1,5 @@
+import type { User } from "./userTypes";
+
 export type ProposalStatus = 0 | 1 | 2;
 
 export interface CreateProposalRequest {
@@ -20,7 +22,7 @@ export interface Proposal {
   price: number;
   duration: number;
   description: string;
-  user: string;
+  user: Pick<User, "_id" | "name" | "avatarUrl">;
   status: ProposalStatus;
   createdAt: string;
   updatedAt: string;
