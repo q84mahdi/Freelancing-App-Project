@@ -8,12 +8,8 @@ export default function useProposals() {
 
   const queryObject = queryString.parse(search);
 
-  const { isLoading, data } = useQuery({
+  return useQuery({
     queryKey: ["proposals", queryObject],
     queryFn: () => getProposalsApi(search),
   });
-
-  const { proposals } = data || {};
-
-  return { isLoading, proposals };
 }
