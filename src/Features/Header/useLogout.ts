@@ -7,19 +7,17 @@ export default function useLogout() {
 
   const navigate = useNavigate();
 
-  const { isPending, mutate: logout } = useMutation({
+  return useMutation({
     mutationFn: logoutApi,
 
     onSuccess: () => {
       queryClient.removeQueries({ queryKey: ["user"] });
 
       navigate("/", { replace: true });
-      
+
       if (window.location.pathname === "/") {
         window.location.reload();
       }
     },
   });
-
-  return { isPending, logout };
 }

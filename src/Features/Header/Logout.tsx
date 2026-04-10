@@ -1,12 +1,12 @@
 import { HiOutlineArrowRightOnRectangle } from "react-icons/hi2";
-import useLogout from "./useLogout";
 import Modal from "../../UI/Modal";
 import { useState } from "react";
+import useLogout from "./useLogout";
 
 function Logout() {
   const [open, setOpen] = useState(false);
 
-  const { logout } = useLogout();
+  const { isPending, mutate: logout } = useLogout();
 
   return (
     <>
@@ -24,7 +24,11 @@ function Logout() {
         </p>
 
         <div className="flex items-center justify-center gap-2">
-          <button className="btn btn--danger flex-1 p-2" onClick={logout}>
+          <button
+            disabled={isPending}
+            className="btn btn--danger flex-1 p-2"
+            onClick={() => logout()}
+          >
             بله
           </button>
 

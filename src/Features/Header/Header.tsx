@@ -1,11 +1,11 @@
 import { Link } from "react-router-dom";
-import UserAvatar from "../Features/Authentication/UserAvatar";
-import useUser from "../Features/Authentication/useUser";
-import HeaderMenu from "./HeaderMenu";
 import { HiOutlineMenu } from "react-icons/hi";
-import { useToggle } from "../Contexts/ToggleContext";
+import HeaderMenu from "./HeaderMenu";
+import UserAvatar from "./UserAvatar";
+import useUser from "../../Hooks/useUser";
+import { useToggle } from "../../Contexts/ToggleContext";
 
-function Header({ home }) {
+function Header({ home = false }: { home?: boolean }) {
   const { isLoading } = useUser();
 
   const { setIsToggleOpen } = useToggle();

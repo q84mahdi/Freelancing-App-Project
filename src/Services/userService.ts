@@ -6,12 +6,12 @@ import type {
 } from "../Types/userTypes";
 import http from "./httpService";
 
-export const getUser = async (): Promise<{ user: User }> => {
+export const getUserApi = async (): Promise<{ user: User }> => {
   const res = await http.get<ApiResponse<{ user: User }>>("/user/profile");
   return res.data.data;
 };
 
-export const getUsers = async (qs: string): Promise<{ users: User[] }> => {
+export const getUsersApi = async (qs: string): Promise<{ users: User[] }> => {
   const res = await http.get<ApiResponse<{ users: User[] }>>(
     `/admin/user/list${qs}`,
   );

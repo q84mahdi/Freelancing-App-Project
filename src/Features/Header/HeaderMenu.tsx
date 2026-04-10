@@ -1,10 +1,10 @@
 import { HiOutlineUser } from "react-icons/hi";
 import { Link } from "react-router-dom";
+import useUser from "../../Hooks/useUser";
+import AdminLogin from "./AdminLogin";
 import DarkModeToggle from "./DarkModeToggle";
-import Logout from "../Features/Authentication/Logout";
-import useUser from "../Features/Authentication/useUser";
-import Login from "../Features/Authentication/Login";
-import AdminLogin from "../Features/Authentication/AdminLogin";
+import Logout from "./Logout";
+import Login from "./Login";
 
 const ROLES = {
   ADMIN: "admin",
@@ -13,7 +13,11 @@ const ROLES = {
 };
 
 function HeaderMenu() {
-  const { user } = useUser();
+  const { isLoading, data } = useUser();
+
+  if (isLoading || !data) return;
+
+  const { user } = data;
 
   return (
     <div>

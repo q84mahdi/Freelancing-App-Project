@@ -1,5 +1,6 @@
 import type {
   AdminLoginRequest,
+  AdminLoginResponse,
   CheckOtpRequest,
   CompleteProfileRequest,
   GetOtpRequest,
@@ -44,10 +45,10 @@ export const logoutApi = async (): Promise<EmptyResponse> => {
 
 export const adminLoginApi = async (
   data: AdminLoginRequest,
-): Promise<EmptyResponse> => {
-  const res = await http.post<ApiResponse<EmptyResponse>, AdminLoginRequest>(
-    "/user/admin-auth",
-    data,
-  );
+): Promise<AdminLoginResponse> => {
+  const res = await http.post<
+    ApiResponse<AdminLoginResponse>,
+    AdminLoginRequest
+  >("/user/admin-auth", data);
   return res.data.data;
 };
