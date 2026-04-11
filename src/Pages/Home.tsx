@@ -1,4 +1,4 @@
-import Header from "../UI/Header";
+import Header from "../Features/Header/Header";
 
 function Home() {
   return (
