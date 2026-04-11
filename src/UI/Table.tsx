@@ -1,4 +1,6 @@
-function Table({ children }) {
+import type { ReactNode } from "react";
+
+function Table({ children }: { children: ReactNode }) {
   return (
     <div className="overflow-x-auto bg-secondary-0">
       <table>{children}</table>
@@ -7,7 +9,7 @@ function Table({ children }) {
 }
 export default Table;
 
-function TableHeader({ children }) {
+function TableHeader({ children }: { children: ReactNode }) {
   return (
     <thead>
       <tr className="title-row">{children}</tr>
@@ -15,11 +17,11 @@ function TableHeader({ children }) {
   );
 }
 
-function TableBody({ children }) {
+function TableBody({ children }: { children: ReactNode }) {
   return <tbody>{children}</tbody>;
 }
 
-function TableRow({ children }) {
+function TableRow({ children }: { children: ReactNode }) {
   return <tr>{children}</tr>;
 }
 

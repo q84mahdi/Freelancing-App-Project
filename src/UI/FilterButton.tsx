@@ -1,11 +1,20 @@
 import { useSearchParams } from "react-router-dom";
 
-function FilterButton({ filterField, options, title }) {
+interface FilterButtonProps {
+  title: string;
+  filterField: string;
+  options: {
+    label: string;
+    value: string;
+  }[];
+}
+
+function FilterButton({ filterField, options, title }: FilterButtonProps) {
   const [searchParams, setSearchParams] = useSearchParams();
 
-  const currentFilter = searchParams.get(filterField) || options.at(0).value;
+  const currentFilter = searchParams.get(filterField) || options.at(0)?.value;
 
-  const handleClick = (value) => {
+  const handleClick = (value: string) => {
     searchParams.set(filterField, value);
     setSearchParams(searchParams);
   };

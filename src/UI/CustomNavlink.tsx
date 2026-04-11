@@ -1,7 +1,13 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, type To } from "react-router-dom";
 import { useToggle } from "../Contexts/ToggleContext";
+import type { ReactNode } from "react";
 
-function CustomNavlink({ children, to }) {
+interface CustomNavlinkProps {
+  children: ReactNode;
+  to: To;
+}
+
+function CustomNavlink({ children, to }: CustomNavlinkProps) {
   const navLinkClass =
     "flex items-center gap-x-2 rounded-md p-2 transition-all duration-300";
 

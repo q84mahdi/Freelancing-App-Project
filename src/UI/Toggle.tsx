@@ -1,6 +1,12 @@
 import { Field, Label, Switch } from "@headlessui/react";
 
-function Toggle({checked,onChange,label}) {
+interface ToggleProps {
+  checked: boolean;
+  onChange: (checked: boolean) => void;
+  label: string;
+}
+
+function Toggle({ checked, onChange, label }: ToggleProps) {
   return (
     <Field className="flex flex-row items-center justify-center gap-x-2">
       <Switch
@@ -15,4 +21,4 @@ function Toggle({checked,onChange,label}) {
     </Field>
   );
 }
-export default Toggle
+export default Toggle;

@@ -1,4 +1,16 @@
-function ConfirmDelete({ resourceName, onClose, onConfirm, disabled }) {
+interface ConfirmDeleteProps {
+  resourceName: string;
+  onClose: () => void;
+  onConfirm: () => void;
+  disabled: boolean;
+}
+
+function ConfirmDelete({
+  resourceName,
+  onClose,
+  onConfirm,
+  disabled,
+}: ConfirmDeleteProps) {
   return (
     <div>
       <h2 className="mb-8 text-base font-bold">

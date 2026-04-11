@@ -5,10 +5,11 @@ const ROLES = {
   admin: "ADMIN",
   owner: "OWNER",
   freelancer: "FREELANCER",
-};
+} as const;
 
 export default function useAuthorize() {
-  const { isLoading, user } = useUser();
+  const { isLoading, data } = useUser();
+  const { user } = data || {};
 
   const { pathname } = useLocation();
 
@@ -22,8 +23,9 @@ export default function useAuthorize() {
   if (user) isAuthenticated = true;
 
   // change user authorization
-  if (Object.keys(ROLES).includes(desiredRole)) {
-    if (user && user.role === ROLES[desiredRole]) isAuthorized = true;
+  if (desiredRole && Object.keys(ROLES).includes(desiredRole)) {
+    if (user && user.role === ROLES[desiredRole as keyof typeof ROLES])
+      isAuthorized = true;
   }
 
   // change user verification

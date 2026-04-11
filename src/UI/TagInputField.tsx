@@ -1,6 +1,13 @@
 import { TagsInput } from "react-tag-input-component";
 
-function TagInputField({ label, name, value, onChange }) {
+interface TagInputFieldProps {
+  label: string;
+  name: string;
+  value: string[];
+  onChange: (tags: string[]) => void;
+}
+
+function TagInputField({ label, name, value, onChange }: TagInputFieldProps) {
   return (
     <div>
       <label className="mb-2 text-secondary-600">{label}</label>

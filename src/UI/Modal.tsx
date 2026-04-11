@@ -1,9 +1,17 @@
 import { Transition } from "@headlessui/react";
 import { HiOutlineX } from "react-icons/hi";
 import useOutsideClick from "../Hooks/useOutsideClick";
+import type { ReactNode } from "react";
 
-function Modal({ open, onClose, title, children }) {
-  const ref = useOutsideClick(onClose);
+interface ModalProps {
+  open: boolean;
+  onClose: () => void;
+  title: string;
+  children: ReactNode;
+}
+
+function Modal({ open, onClose, title, children }: ModalProps) {
+  const ref = useOutsideClick<HTMLDivElement>(onClose);
 
   return (
     <Transition

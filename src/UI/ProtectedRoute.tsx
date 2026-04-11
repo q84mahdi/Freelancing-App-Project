@@ -1,10 +1,10 @@
-import { useEffect } from "react";
-import useAuthorize from "../Features/Authentication/useAuthorize";
+import { useEffect, type ReactNode } from "react";
 import Loader from "./Loader";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
+import useAuthorize from "../Hooks/useAuthorize";
 
-function ProtectedRoute({ children }) {
+function ProtectedRoute({ children }: { children: ReactNode }) {
   const navigate = useNavigate();
 
   // load the user information

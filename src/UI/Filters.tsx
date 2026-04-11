@@ -1,10 +1,10 @@
-import { useState } from "react";
+import { useState, type ReactNode } from "react";
 import useOutsideClick from "../Hooks/useOutsideClick";
 
-function Filters({ children }) {
+function Filters({ children }: { children: ReactNode }) {
   const [isOpen, setIsOpen] = useState(false);
 
-  const ref = useOutsideClick(() => setIsOpen(false));
+  const ref = useOutsideClick<HTMLDivElement>(() => setIsOpen(false));
 
   return (
     <div>
@@ -17,7 +17,7 @@ function Filters({ children }) {
 
       <div
         ref={ref}
-        className={`${isOpen ? "fixed left-[32px] top-[150px] flex md:left-[40px] md:top-[170px] min-w-[250px]" : "hidden"} z-0 flex-col gap-x-2 gap-y-4 rounded-md bg-secondary-300 p-2 lg:flex lg:flex-row-reverse lg:items-center lg:bg-transparent`}
+        className={`${isOpen ? "fixed left-[32px] top-[150px] flex min-w-[250px] md:left-[40px] md:top-[170px]" : "hidden"} z-0 flex-col gap-x-2 gap-y-4 rounded-md bg-secondary-300 p-2 lg:flex lg:flex-row-reverse lg:items-center lg:bg-transparent`}
       >
         {children}
       </div>

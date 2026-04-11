@@ -1,4 +1,25 @@
-function RHFSelectOption({
+import type {
+  FieldErrors,
+  FieldValues,
+  Path,
+  RegisterOptions,
+  UseFormRegister,
+} from "react-hook-form";
+
+interface RHFSelectOptionProps<T extends FieldValues> {
+  label: string;
+  name: Path<T>;
+  options: {
+    label: string;
+    value: string;
+  }[];
+  register: UseFormRegister<T>;
+  validationSchema: RegisterOptions<T, Path<T>>;
+  required: boolean;
+  errors: FieldErrors;
+}
+
+function RHFSelectOption<T extends FieldValues>({
   label,
   name,
   options,
@@ -6,7 +27,7 @@ function RHFSelectOption({
   validationSchema,
   required,
   errors,
-}) {
+}: RHFSelectOptionProps<T>) {
   return (
     <div>
       <label htmlFor={name} className="mb-2 text-secondary-600">
@@ -28,7 +49,7 @@ function RHFSelectOption({
 
       {errors && errors[name] && (
         <span className="mt-2 block text-sm text-error">
-          {errors[name]?.message}
+          {errors[name]?.message?.toString()}
         </span>
       )}
     </div>

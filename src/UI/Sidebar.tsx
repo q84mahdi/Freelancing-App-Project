@@ -1,7 +1,8 @@
 import { Link } from "react-router-dom";
 import { useToggle } from "../Contexts/ToggleContext";
+import type { ReactNode } from "react";
 
-function Sidebar({ children }) {
+function Sidebar({ children }: { children: ReactNode }) {
   const { setIsToggleOpen } = useToggle();
 
   return (
