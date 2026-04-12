@@ -13,8 +13,8 @@ interface RHFTextFieldInputProps<T extends FieldValues> {
   register: UseFormRegister<T>;
   validationSchema: RegisterOptions<T, Path<T>>;
   errors: FieldErrors<T>;
-  required: boolean;
-  type: HTMLInputTypeAttribute;
+  required?: boolean;
+  type?: HTMLInputTypeAttribute;
 }
 
 function RHFTextFieldInput<T extends FieldValues>({
@@ -23,7 +23,7 @@ function RHFTextFieldInput<T extends FieldValues>({
   register,
   validationSchema,
   errors,
-  required,
+  required = false,
   type = "text",
 }: RHFTextFieldInputProps<T>) {
   return (

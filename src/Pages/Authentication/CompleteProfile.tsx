@@ -1,4 +1,4 @@
-import CompleteProfileForm from "../Features/Authentication/CompleteProfileForm";
+import CompleteProfileForm from "../../Features/Authentication/CompleteProfileForm";
 
 function CompleteProfile() {
   return (

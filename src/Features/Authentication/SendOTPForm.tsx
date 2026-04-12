@@ -1,7 +1,27 @@
-import TextFieldInput from "../../UI/TextFieldInput";
+import type {
+  FieldErrors,
+  FieldValues,
+  Path,
+  UseFormRegister,
+} from "react-hook-form";
 import Loader from "../../UI/Loader";
+import RHFTextFieldInput from "../../UI/RHFTextFieldInput";
 
-function SendOTPForm({ onSendOtp, isSendingOtp, register, errors }) {
+interface SendOTPFormProps<T extends FieldValues> {
+  name: Path<T>;
+  onSendOtp: () => void;
+  isSendingOtp: boolean;
+  register: UseFormRegister<T>;
+  errors: FieldErrors<T>;
+}
+
+function SendOTPForm<T extends FieldValues>({
+  name,
+  onSendOtp,
+  isSendingOtp,
+  register,
+  errors,
+}: SendOTPFormProps<T>) {
   return (
     <form
       className="mx-4 space-y-6 rounded-lg border border-secondary-300 px-3 py-6"
@@ -11,9 +31,9 @@ function SendOTPForm({ onSendOtp, isSendingOtp, register, errors }) {
         سلام! خوش آمدید
       </h2>
 
-      <TextFieldInput
-        label={"لطفا شماره موبایل خود را وارد کنید"}
-        name={"phoneNumber"}
+      <RHFTextFieldInput
+        label="لطفا شماره موبایل خود را وارد کنید"
+        name={name}
         register={register}
         type="number"
         validationSchema={{
@@ -24,6 +44,7 @@ function SendOTPForm({ onSendOtp, isSendingOtp, register, errors }) {
           },
         }}
         errors={errors}
+        required
       />
 
       {isSendingOtp ? (

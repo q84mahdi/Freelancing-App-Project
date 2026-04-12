@@ -1,21 +1,28 @@
-import TextFieldInput from "../../UI/TextFieldInput";
 import { useMutation } from "@tanstack/react-query";
-import { completeProfile } from "../../Services/authService";
 import toast from "react-hot-toast";
 import Loader from "../../UI/Loader";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import RadioInputGroup from "../../UI/RadioInputGroup";
-import useUser from "./useUser";
 import { useEffect } from "react";
+import useUser from "../../Hooks/useUser";
+import { completeProfileApi } from "../../Services/authService";
+import RHFTextFieldInput from "../../UI/RHFTextFieldInput";
+import RHFRadioInputGroup from "../../UI/RHFRadioInputGroup";
+
+interface CompleteProfileValues {
+  name: string;
+  email: string;
+  role: "FREELANCER" | "OWNER";
+}
 
 function CompleteProfileForm() {
   const navigate = useNavigate();
 
-  const { user } = useUser();
+  const { data } = useUser();
+  const { user } = data || {};
 
   useEffect(() => {
-    if (user.isActive) return navigate("/", { replace: true });
+    if (user && user.isActive) return navigate("/", { replace: true });
   }, [user, navigate]);
 
   const {
@@ -23,13 +30,13 @@ function CompleteProfileForm() {
     handleSubmit,
     watch,
     formState: { errors },
-  } = useForm();
+  } = useForm<CompleteProfileValues>();
 
   const { isPending, mutateAsync } = useMutation({
-    mutationFn: completeProfile,
+    mutationFn: completeProfileApi,
   });
 
-  const onSubmit = async (data) => {
+  const onSubmit = async (data: CompleteProfileValues) => {
     try {
       const { user, message } = await mutateAsync(data);
 
@@ -47,7 +54,9 @@ function CompleteProfileForm() {
         return;
       }
     } catch (error) {
-      toast.error(error?.response?.data?.message);
+      const message =
+        error instanceof Error ? error.message : "خطا در تایید اطلاعات کاربر";
+      toast.error(message);
     }
   };
 
@@ -60,7 +69,7 @@ function CompleteProfileForm() {
         تکمیل اطلاعات
       </h2>
 
-      <TextFieldInput
+      <RHFTextFieldInput
         label="نام و نام خانوادگی"
         name="name"
         register={register}
@@ -70,7 +79,7 @@ function CompleteProfileForm() {
         errors={errors}
       />
 
-      <TextFieldInput
+      <RHFTextFieldInput
         label="ایمیل"
         name="email"
         register={register}
@@ -84,20 +93,18 @@ function CompleteProfileForm() {
         errors={errors}
       />
 
-      <RadioInputGroup
+      <RHFRadioInputGroup
         register={register}
         watch={watch}
         errors={errors}
-        configs={{
-          name: "role",
-          validationSchema: {
-            required: "انتخاب یک نقش ضروری می باشد",
-          },
-          options: [
-            { label: "کارفرما", value: "OWNER" },
-            { label: "فریلنسر", value: "FREELANCER" },
-          ],
+        name="role"
+        validationSchema={{
+          required: "انتخاب یک نقش ضروری می باشد",
         }}
+        options={[
+          { label: "کارفرما", value: "OWNER" },
+          { label: "فریلنسر", value: "FREELANCER" },
+        ]}
       />
 
       {isPending ? (

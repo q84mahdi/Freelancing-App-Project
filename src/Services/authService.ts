@@ -2,7 +2,9 @@ import type {
   AdminLoginRequest,
   AdminLoginResponse,
   CheckOtpRequest,
+  CheckOtpResponse,
   CompleteProfileRequest,
+  CompleteProfileResponse,
   GetOtpRequest,
 } from "../Types/authTypes";
 import type { ApiResponse, EmptyResponse } from "../Types/globalTypes";
@@ -20,8 +22,8 @@ export const getOtpApi = async (
 
 export const checkOtpApi = async (
   data: CheckOtpRequest,
-): Promise<EmptyResponse> => {
-  const res = await http.post<ApiResponse<EmptyResponse>, CheckOtpRequest>(
+): Promise<CheckOtpResponse> => {
+  const res = await http.post<ApiResponse<CheckOtpResponse>, CheckOtpRequest>(
     "/user/check-otp",
     data,
   );
@@ -30,9 +32,9 @@ export const checkOtpApi = async (
 
 export const completeProfileApi = async (
   data: CompleteProfileRequest,
-): Promise<EmptyResponse> => {
+): Promise<CompleteProfileResponse> => {
   const res = await http.post<
-    ApiResponse<EmptyResponse>,
+    ApiResponse<CompleteProfileResponse>,
     CompleteProfileRequest
   >("/user/complete-profile", data);
   return res.data.data;

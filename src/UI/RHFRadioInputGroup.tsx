@@ -10,7 +10,7 @@ import type {
 interface RHFRadioInputGroupProps<T extends FieldValues> {
   name: Path<T>;
   register: UseFormRegister<T>;
-  watch: UseFormWatch<FieldValues>;
+  watch: UseFormWatch<T>;
   errors: FieldErrors;
   validationSchema?: RegisterOptions<T, Path<T>>;
   options: { label: string; value: string }[];

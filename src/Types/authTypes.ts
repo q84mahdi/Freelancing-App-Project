@@ -9,10 +9,20 @@ export interface CheckOtpRequest {
   otp: string;
 }
 
+export interface CheckOtpResponse {
+  message: string;
+  user: User;
+}
+
 export interface CompleteProfileRequest {
   name: string;
   email: string;
   role: "FREELANCER" | "OWNER";
+}
+
+export interface CompleteProfileResponse {
+  message: string;
+  user: User;
 }
 
 export interface AdminLoginRequest {

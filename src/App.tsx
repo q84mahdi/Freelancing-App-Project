@@ -6,8 +6,8 @@ import { DarkModeProvider } from "./Contexts/DarkModeContext";
 import { ToggleProvider } from "./Contexts/ToggleContext";
 
 // Authentication Pages
-import Auth from "./Pages/Auth";
-import CompleteProfile from "./Pages/CompleteProfile";
+import Auth from "./Pages/Authentication/Auth";
+import CompleteProfile from "./Pages/Authentication/CompleteProfile";
 
 // Other Pages
 import Home from "./Pages/Home";

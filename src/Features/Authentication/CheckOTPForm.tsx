@@ -1,14 +1,27 @@
 import { useMutation } from "@tanstack/react-query";
-import { useEffect, useState } from "react";
+import { useEffect, useState, type FormEventHandler } from "react";
 import OTPInput from "react-otp-input";
-import { checkOtp } from "../../Services/authService";
 import toast from "react-hot-toast";
 import Loader from "../../UI/Loader";
 import { useNavigate } from "react-router-dom";
+import { checkOtpApi } from "../../Services/authService";
+import type { GetOtpValues } from "./AuthContainer";
 
 const RESEND_TIME = 90;
 
-function CheckOTPForm({ setStep, phoneNumber, onResendOtp, otpResponse }) {
+interface CheckOTPFormProps {
+  setStep: React.Dispatch<React.SetStateAction<number>>;
+  phoneNumber: string;
+  onResendOtp: (data: GetOtpValues) => Promise<void>;
+  otpResponse?: string;
+}
+
+function CheckOTPForm({
+  setStep,
+  phoneNumber,
+  onResendOtp,
+  otpResponse,
+}: CheckOTPFormProps) {
   const [otp, setOtp] = useState("");
   const [time, setTime] = useState(RESEND_TIME);
 
@@ -18,7 +31,7 @@ function CheckOTPForm({ setStep, phoneNumber, onResendOtp, otpResponse }) {
     if (document) {
       console.log(document.getElementById("otpInput"));
 
-      document.getElementById("otpInput").focus();
+      document.getElementById("otpInput")?.focus();
     }
   }, []);
 
@@ -31,10 +44,10 @@ function CheckOTPForm({ setStep, phoneNumber, onResendOtp, otpResponse }) {
   }, [time]);
 
   const { isPending, mutateAsync } = useMutation({
-    mutationFn: checkOtp,
+    mutationFn: checkOtpApi,
   });
 
-  const checkOtpHandler = async (e) => {
+  const checkOtpHandler: FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
 
     try {
@@ -66,14 +79,16 @@ function CheckOTPForm({ setStep, phoneNumber, onResendOtp, otpResponse }) {
         }
       }
     } catch (error) {
-      toast.error(error?.response?.data?.message);
+      const message =
+        error instanceof Error ? error.message : "خطا در تایید کد تایید";
+      toast.error(message);
     }
   };
 
-  const ResendOtpHandler = (e) => {
+  const ResendOtpHandler = () => {
     setTime(RESEND_TIME);
 
-    onResendOtp(e);
+    onResendOtp({ phoneNumber });
   };
 
   return (
@@ -84,7 +99,7 @@ function CheckOTPForm({ setStep, phoneNumber, onResendOtp, otpResponse }) {
 
       <form className="space-y-6" onSubmit={checkOtpHandler}>
         {otpResponse ? (
-          <p className="mb-2 mr-2 text-secondary-600">{otpResponse?.message}</p>
+          <p className="mb-2 mr-2 text-secondary-600">{otpResponse}</p>
         ) : (
           <p className="mb-2 mr-2 text-secondary-600">
             کد تایید ارسال شده را وارد کنید
