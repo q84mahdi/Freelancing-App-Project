@@ -1,25 +1,41 @@
 import { TbPencilMinus } from "react-icons/tb";
-import Table from "../../UI/Table";
-import toLocalDateShort from "../../Utils/toLocalDateShort";
+import { HiEye, HiOutlineTrash } from "react-icons/hi";
+import { useState } from "react";
+import CreateProjectForm from "../Projects/CreateProjectForm";
+import { Link } from "react-router-dom";
 import {
   toPersianNumbers,
   toPersianNumbersWithComma,
-} from "../../Utils/toPersianNumbers";
-import truncateText from "../../Utils/truncateText";
-import { HiEye, HiOutlineTrash } from "react-icons/hi";
-import { useState } from "react";
-import Modal from "../../UI/Modal";
-import ConfirmDelete from "../../UI/ConfirmDelete";
+} from "../../../Utils/toPersianNumbers";
+import truncateText from "../../../Utils/truncateText";
+import toLocalDateShort from "../../../Utils/toLocalDateShort";
+import Modal from "../../../UI/Modal";
+import Table from "../../../UI/Table";
+import ConfirmDelete from "../../../UI/ConfirmDelete";
+import type { ProjectDetails } from "../../../Types/projectTypes";
 import useRemoveProject from "./useRemoveProject";
-import CreateProjectForm from "../Projects/CreateProjectForm";
 import ToggleProjectStatus from "./ToggleProjectStatus";
-import { Link } from "react-router-dom";
 
-function ProjectRow({ project, index }) {
+interface ProjectRowProps {
+  project: ProjectDetails;
+  index: number;
+}
+
+function ProjectRow({ project, index }: ProjectRowProps) {
   const [isEditOpen, setIsEditOpen] = useState(false);
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);
 
-  const { isDeleting, removeProject } = useRemoveProject();
+  const { isPending: isDeleting, mutate: removeProject } = useRemoveProject();
+
+  const projectToEdit = {
+    _id: project._id,
+    title: project.title,
+    description: project.description,
+    budget: project.budget,
+    category: project.category._id,
+    tags: project.tags,
+    deadline: project.deadline,
+  };
 
   return (
     <Table.Row>
@@ -63,7 +79,7 @@ function ProjectRow({ project, index }) {
             >
               <CreateProjectForm
                 onClose={() => setIsEditOpen(false)}
-                projectToEdit={project}
+                projectToEdit={projectToEdit}
               />
             </Modal>
           </>

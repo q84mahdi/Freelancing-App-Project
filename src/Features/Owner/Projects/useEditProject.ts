@@ -1,11 +1,11 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { editProjectApi } from "../../Services/projectService";
 import toast from "react-hot-toast";
+import { editProjectApi } from "../../../Services/projectService";
 
 export default function useEditProject() {
   const queryClient = useQueryClient();
 
-  const { isPending: isEditing, mutate: editProject } = useMutation({
+  return useMutation({
     mutationFn: editProjectApi,
 
     onSuccess: (data) => {
@@ -14,8 +14,10 @@ export default function useEditProject() {
       queryClient.invalidateQueries({ queryKey: ["owner-projects"] });
     },
 
-    onError: (err) => toast.error(err?.response?.data?.message),
+    onError: (error) => {
+      const message =
+        error instanceof Error ? error.message : "خطا در ویرایش پروژه";
+      toast.error(message);
+    },
   });
-
-  return { isEditing, editProject };
 }

@@ -1,11 +1,13 @@
+import type { ProjectDetails } from "../../../Types/projectTypes";
+import Loader from "../../../UI/Loader";
+import Toggle from "../../../UI/Toggle";
 import useToggleProjectStatus from "./useToggleProjectStatus";
-import Loader from "../../UI/Loader";
-import Toggle from "../../UI/Toggle";
 
-function ToggleProjectStatus({ project }) {
+function ToggleProjectStatus({ project }: { project: ProjectDetails }) {
   const { status } = project;
 
-  const { isUpdating, toggleProjectStatus } = useToggleProjectStatus();
+  const { isPending: isUpdating, mutate: toggleProjectStatus } =
+    useToggleProjectStatus();
 
   const toggleHandler = () => {
     const newStatus = status === "OPEN" ? "CLOSED" : "OPEN";

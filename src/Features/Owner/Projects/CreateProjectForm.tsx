@@ -1,19 +1,37 @@
 import { useForm } from "react-hook-form";
-import TextFieldInput from "../../UI/TextFieldInput";
-import RHFSelectOption from "../../UI/RHFSelectOption";
-import TagInputField from "../../UI/TagInputField";
 import { useState } from "react";
-import DatePickerField from "../../UI/DatePickerField";
-import persian from "react-date-object/calendars/persian";
-import persian_fa from "react-date-object/locales/persian_fa";
-import useCategories from "../../Hooks/useCategories";
+import useCategories from "../../../Hooks/useCategories";
+import RHFTextFieldInput from "../../../UI/RHFTextFieldInput";
+import RHFSelectOption from "../../../UI/RHFSelectOption";
+import TagInputField from "../../../UI/TagInputField";
+import DatePickerField from "../../../UI/DatePickerField";
+import Loader from "../../../UI/Loader";
+import type { Value } from "react-multi-date-picker";
 import useCreateProject from "./useCreateProject";
-import Loader from "../../UI/Loader";
 import useEditProject from "./useEditProject";
 
-function CreateProjectForm({ onClose, projectToEdit = {} }) {
-  const editId = projectToEdit._id;
-  const isEditSession = Boolean(editId);
+interface CreateProjectFormProps {
+  onClose: () => void;
+  projectToEdit?: {
+    _id: string;
+    title: string;
+    description: string;
+    budget: number;
+    category: string;
+    tags: string[];
+    deadline: string;
+  };
+}
+
+interface CreateProjectValues {
+  title: string;
+  description: string;
+  budget: number;
+  category: string;
+}
+
+function CreateProjectForm({ onClose, projectToEdit }: CreateProjectFormProps) {
+  const editId = projectToEdit?._id;
 
   const {
     title,
@@ -22,42 +40,48 @@ function CreateProjectForm({ onClose, projectToEdit = {} }) {
     category,
     tags: prevTags,
     deadline,
-  } = projectToEdit;
+  } = projectToEdit || {};
 
   let editValues = {};
-  if (isEditSession) {
+  if (editId) {
     editValues = {
       title,
       description,
       budget,
-      category: category._id,
+      category,
     };
   }
 
   const newDate = new Date();
 
   const [tags, setTags] = useState(prevTags || []);
-  const [date, setDate] = useState(new Date(deadline || newDate));
+  const [date, setDate] = useState<Value>(new Date(deadline || newDate));
 
-  const { categories } = useCategories();
+  const { data } = useCategories();
+  const categories =
+    data &&
+    data.categories.map((category) => ({
+      label: category.title,
+      value: category._id,
+    }));
 
-  const { isCreating, createProject } = useCreateProject();
-  const { isEditing, editProject } = useEditProject();
+  const { isPending: isCreating, mutate: createProject } = useCreateProject();
+  const { isPending: isEditing, mutate: editProject } = useEditProject();
 
   const {
     register,
     handleSubmit,
     reset,
     formState: { errors },
-  } = useForm({ defaultValues: editValues });
+  } = useForm<CreateProjectValues>({ defaultValues: editValues });
 
-  const onSubmit = (data) => {
-    const deadline = new Date(date).toISOString();
+  const onSubmit = (data: CreateProjectValues) => {
+    const deadline = new Date(date as Date).toISOString();
     const newProject = { ...data, tags, deadline };
 
-    if (isEditSession) {
+    if (editId) {
       editProject(
-        { id: editId, newProject },
+        { id: editId, data: newProject },
         {
           onSuccess: () => {
             onClose(), reset();
@@ -76,7 +100,7 @@ function CreateProjectForm({ onClose, projectToEdit = {} }) {
 
   return (
     <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
-      <TextFieldInput
+      <RHFTextFieldInput
         label="عنوان"
         name="title"
         register={register}
@@ -91,7 +115,7 @@ function CreateProjectForm({ onClose, projectToEdit = {} }) {
         errors={errors}
       />
 
-      <TextFieldInput
+      <RHFTextFieldInput
         label="توضیحات"
         name="description"
         register={register}
@@ -106,7 +130,7 @@ function CreateProjectForm({ onClose, projectToEdit = {} }) {
         errors={errors}
       />
 
-      <TextFieldInput
+      <RHFTextFieldInput
         label="بودجه"
         name="budget"
         register={register}
@@ -118,17 +142,19 @@ function CreateProjectForm({ onClose, projectToEdit = {} }) {
         type="number"
       />
 
-      <RHFSelectOption
-        label="دسته بندی"
-        name="category"
-        options={categories}
-        register={register}
-        required
-        validationSchema={{
-          required: "حتما باید یک دسته بندی را انتخاب کنید",
-        }}
-        errors={errors}
-      />
+      {categories && (
+        <RHFSelectOption
+          label="دسته بندی"
+          name="category"
+          options={categories}
+          register={register}
+          required
+          validationSchema={{
+            required: "حتما باید یک دسته بندی را انتخاب کنید",
+          }}
+          errors={errors}
+        />
+      )}
 
       <TagInputField
         label="تگ ها"
@@ -142,8 +168,6 @@ function CreateProjectForm({ onClose, projectToEdit = {} }) {
         name="deadline"
         date={date}
         setDate={setDate}
-        calender={persian}
-        locale={persian_fa}
         format="YYYY/MM/DD"
       />
 

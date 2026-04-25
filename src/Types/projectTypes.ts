@@ -9,7 +9,7 @@ export interface CreateProjectRequest {
   description: string;
   tags: string[];
   category: string;
-  budget: string;
+  budget: number;
   deadline: string;
 }
 

@@ -1,13 +1,15 @@
-import Empty from "../../UI/Empty";
-import Loader from "../../UI/Loader";
-import Table from "../../UI/Table";
+import Empty from "../../../UI/Empty";
+import Loader from "../../../UI/Loader";
+import Table from "../../../UI/Table";
 import ProjectRow from "./ProjectRow";
 import useOwnerProjects from "./useOwnerProjects";
 
 function ProjectTable() {
-  const { isLoading, projects } = useOwnerProjects();
+  const { isLoading, data } = useOwnerProjects();
 
-  if (isLoading) return <Loader />;
+  if (isLoading || !data) return <Loader />;
+
+  const { projects } = data;
 
   if (!projects.length) return <Empty resourceName={"پروژه ای"} />;
   console.log(projects);
@@ -29,7 +31,10 @@ function ProjectTable() {
 
       <Table.Body>
         {projects
-          .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+          .sort(
+            (a, b) =>
+              new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
+          )
           .map((project, index) => (
             <ProjectRow key={project._id} project={project} index={index} />
           ))}
