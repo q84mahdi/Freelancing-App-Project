@@ -1,11 +1,12 @@
 import { HiCheck, HiCollection, HiViewGrid } from "react-icons/hi";
 import Stat from "../../UI/Stat";
+import type { ProjectDetails } from "../../Types/projectTypes";
 
-function Stats({ projects }) {
+function Stats({ projects }: { projects: ProjectDetails[] }) {
   const numOfProjects = projects.length;
 
   const numOfAcceptedProjects = projects.map(
-    (project) => project.status === 2,
+    (project) => project.status === "OPEN",
   ).length;
 
   const numOfProposals = projects.reduce(

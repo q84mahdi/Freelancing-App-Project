@@ -17,9 +17,9 @@ import ProtectedRoute from "./UI/ProtectedRoute";
 
 // Owner Pages and Layout
 import OwnerLayout from "./Features/Owner/OwnerLayout";
-import OwnerDashboard from "./Pages/OwnerDashboard";
-import OwnerProjects from "./Pages/OwnerProjects";
-import OwnerProject from "./Pages/OwnerProject";
+import OwnerDashboard from "./Pages/Owner/OwnerDashboard";
+import OwnerProjects from "./Pages/Owner/OwnerProjects";
+import OwnerProject from "./Pages/Owner/OwnerProject";
 
 // Freelancer Pages and Layout
 import FreelancerLayout from "./Features/Freelancer/FreelancerLayout";
