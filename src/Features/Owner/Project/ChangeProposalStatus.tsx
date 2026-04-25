@@ -1,41 +1,63 @@
 import { useForm } from "react-hook-form";
-import RHFSelectOption from "../../UI/RHFSelectOption";
 import useChangeProposalStatus from "./useChangeProposalStatus";
-import Loader from "../../UI/Loader";
 import { useParams } from "react-router-dom";
+import type { Proposal, ProposalStatus } from "../../../Types/proposalTypes";
+import RHFSelectOption from "../../../UI/RHFSelectOption";
+import Loader from "../../../UI/Loader";
+
+interface ChangeProposalStatusProps {
+  proposal: Proposal;
+  onClose: () => void;
+}
+
+interface ChangeProposalStatusValues {
+  status: ProposalStatus;
+}
 
 const options = [
   {
     label: "رد شده",
-    value: 0,
+    value: "0",
   },
   {
     label: "در انتطار تایید",
-    value: 1,
+    value: "1",
   },
   {
     label: "تایید شده",
-    value: 2,
+    value: "2",
   },
 ];
 
-function ChangeProposalStatus({ proposal, onClose }) {
+function ChangeProposalStatus({
+  proposal,
+  onClose,
+}: ChangeProposalStatusProps) {
   const { _id: proposalId, status } = proposal;
 
-  const { register, handleSubmit } = useForm({
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<ChangeProposalStatusValues>({
     defaultValues: { status },
   });
 
-  const { isUpdating, changeProposalStatus } = useChangeProposalStatus();
+  const { isPending: isUpdating, mutate: changeProposalStatus } =
+    useChangeProposalStatus();
 
   const { id: projectId } = useParams();
 
-  const onSubmit = (data) => {
+  const onSubmit = (data: ChangeProposalStatusValues) => {
+    if (!projectId) return;
+
     changeProposalStatus(
       {
         proposalId,
-        projectId,
-        ...data,
+        data: {
+          projectId,
+          ...data,
+        },
       },
       {
         onSuccess: () => {
@@ -52,6 +74,7 @@ function ChangeProposalStatus({ proposal, onClose }) {
         name="status"
         options={options}
         register={register}
+        errors={errors}
       />
 
       {isUpdating ? (

@@ -1,13 +1,19 @@
-import Table from "../../UI/Table";
-import truncateText from "../../Utils/truncateText";
 import { TbStatusChange } from "react-icons/tb";
-import Modal from "../../UI/Modal";
 import { useState } from "react";
-import ChangeProposalStatus from "./ChangeProposalStatus";
+import type { Proposal } from "../../../Types/proposalTypes";
+import Table from "../../../UI/Table";
 import {
   toPersianNumbers,
   toPersianNumbersWithComma,
-} from "../../Utils/toPersianNumbers";
+} from "../../../Utils/toPersianNumbers";
+import truncateText from "../../../Utils/truncateText";
+import Modal from "../../../UI/Modal";
+import ChangeProposalStatus from "./ChangeProposalStatus";
+
+interface ProposalRowProps {
+  proposal: Proposal;
+  index: number;
+}
 
 const statusStyle = [
   {
@@ -24,7 +30,7 @@ const statusStyle = [
   },
 ];
 
-function ProposalRow({ proposal, index }) {
+function ProposalRow({ proposal, index }: ProposalRowProps) {
   const { user, description, duration, price, status } = proposal;
 
   const [isOpen, setIsOpen] = useState(false);

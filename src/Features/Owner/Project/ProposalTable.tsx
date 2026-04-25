@@ -1,8 +1,13 @@
-import Table from "../../UI/Table";
+import type { Proposal } from "../../../Types/proposalTypes";
+import Empty from "../../../UI/Empty";
+import Table from "../../../UI/Table";
 import ProposalRow from "./ProposalRow";
-import Empty from "../../UI/Empty";
 
-function ProposalTable({ proposals }) {
+interface ProposalTableProps {
+  proposals: Proposal[];
+}
+
+function ProposalTable({ proposals }: ProposalTableProps) {
   if (!proposals.length) return <Empty resourceName={"درخواستی"} />;
 
   return (

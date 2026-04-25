@@ -14,8 +14,8 @@ interface RHFSelectOptionProps<T extends FieldValues> {
     value: string;
   }[];
   register: UseFormRegister<T>;
-  validationSchema: RegisterOptions<T, Path<T>>;
-  required: boolean;
+  validationSchema?: RegisterOptions<T, Path<T>>;
+  required?: boolean;
   errors: FieldErrors;
 }
 
