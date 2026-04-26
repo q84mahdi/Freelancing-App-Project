@@ -1,19 +1,15 @@
 import { useQuery } from "@tanstack/react-query";
-import { getUsers } from "../../Services/authService";
 import { useLocation } from "react-router-dom";
 import queryString from "query-string";
+import { getUsersApi } from "../../Services/userService";
 
 export default function useUsers() {
   const { search } = useLocation();
 
   const queryObject = queryString.parse(search);
 
-  const { isLoading, data } = useQuery({
+  return useQuery({
     queryKey: ["users", queryObject],
-    queryFn: () => getUsers(search),
+    queryFn: () => getUsersApi(search),
   });
-
-  const { users } = data || {};
-
-  return { isLoading, users };
 }
