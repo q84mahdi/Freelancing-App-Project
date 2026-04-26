@@ -30,7 +30,7 @@ import FreelancerProposals from "./Pages/Freelancer/FreelancerProposals";
 // Admin Pages and Layout
 import AdminLayout from "./Features/Admin/AdminLayout";
 import AdminDashboard from "./Pages/Admin/AdminDashboard";
-import Users from "./Pages/Users";
+import Users from "./Pages/Admin/Users";
 import Projects from "./Pages/Projects";
 import Proposals from "./Pages/Proposals";
 import Categories from "./Pages/Categories";

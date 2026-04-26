@@ -1,11 +1,11 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { changeUserStatusApi } from "../../../Services/authService";
 import toast from "react-hot-toast";
+import { changeUserStatusApi } from "../../../Services/userService";
 
 export default function useChangeUserStatus() {
   const queryClient = useQueryClient();
 
-  const { isPending: isUpdating, mutate: changeUserStatus } = useMutation({
+  return useMutation({
     mutationFn: changeUserStatusApi,
 
     onSuccess: (data) => {
@@ -14,8 +14,10 @@ export default function useChangeUserStatus() {
       queryClient.invalidateQueries({ queryKey: ["users"] });
     },
 
-    onError: (err) => toast.error(err?.response?.data?.message),
+    onError: (error) => {
+      const message =
+        error instanceof Error ? error.message : "خطا در تغییر وضعیت کاربر";
+      toast.error(message);
+    },
   });
-
-  return { isUpdating, changeUserStatus };
 }

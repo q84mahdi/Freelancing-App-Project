@@ -2,8 +2,14 @@ import { useState } from "react";
 import Modal from "../../../UI/Modal";
 import Table from "../../../UI/Table";
 import { TbStatusChange } from "react-icons/tb";
-import ChangeUserStatus from "./ChangeUserStatus";
 import { toPersianNumbers } from "../../../Utils/toPersianNumbers";
+import type { User } from "../../../Types/userTypes";
+import ChangeUserStatus from "./ChangeUserStatus";
+
+interface UserRowProps {
+  user: User;
+  index: number;
+}
 
 const statusStyle = [
   {
@@ -26,7 +32,7 @@ const roles = {
   FREELANCER: "فریلنسر",
 };
 
-function UserRow({ user, index }) {
+function UserRow({ user, index }: UserRowProps) {
   const { name, email, role, status } = user;
 
   const [isOpen, setIsOpen] = useState(false);

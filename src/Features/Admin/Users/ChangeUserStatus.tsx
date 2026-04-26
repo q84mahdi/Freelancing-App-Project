@@ -1,31 +1,48 @@
 import { useForm } from "react-hook-form";
 import Loader from "../../../UI/Loader";
 import RHFSelectOption from "../../../UI/RHFSelectOption";
+import type { User, UserStatus } from "../../../Types/userTypes";
 import useChangeUserStatus from "./useChangeUserStatus";
+
+interface ChangeUserStatus {
+  user: User;
+  onClose: () => void;
+}
+
+interface ChangeUserStatusValues {
+  status: UserStatus;
+}
 
 const options = [
   {
     label: "رد شده",
-    value: 0,
+    value: "0",
   },
   {
     label: "در انتطار تایید",
-    value: 1,
+    value: "1",
   },
   {
     label: "تایید شده",
-    value: 2,
+    value: "2",
   },
 ];
 
-function ChangeUserStatus({ user, onClose }) {
+function ChangeUserStatus({ user, onClose }: ChangeUserStatus) {
   const { _id: userId, status } = user;
 
-  const { register, handleSubmit } = useForm({ defaultValues: { status } });
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<ChangeUserStatusValues>({
+    defaultValues: { status },
+  });
 
-  const { isUpdating, changeUserStatus } = useChangeUserStatus();
+  const { isPending: isUpdating, mutate: changeUserStatus } =
+    useChangeUserStatus();
 
-  const onSubmit = (data) => {
+  const onSubmit = (data: ChangeUserStatusValues) => {
     changeUserStatus(
       { id: userId, data },
       {
@@ -41,6 +58,7 @@ function ChangeUserStatus({ user, onClose }) {
         name="status"
         options={options}
         register={register}
+        errors={errors}
       />
 
       {isUpdating ? (
