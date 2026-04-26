@@ -24,7 +24,7 @@ import OwnerProject from "./Pages/Owner/OwnerProject";
 // Freelancer Pages and Layout
 import FreelancerLayout from "./Features/Freelancer/FreelancerLayout";
 import FreelancerDashboard from "./Pages/Freelancer/FreelancerDashboard";
-import SubmittedProjects from "./Pages/SubmittedProjects";
+import SubmittedProjects from "./Pages/Freelancer/SubmittedProjects";
 import FreelancerProposals from "./Pages/FreelancerProposals";
 
 // Admin Pages and Layout

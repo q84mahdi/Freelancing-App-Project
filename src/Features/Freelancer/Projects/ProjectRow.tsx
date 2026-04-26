@@ -8,7 +8,13 @@ import {
 import truncateText from "../../../Utils/truncateText";
 import Modal from "../../../UI/Modal";
 import { useState } from "react";
-import CreateProposalForm from "../../Proposals/CreateProposalForm";
+import type { Project } from "../../../Types/projectTypes";
+import CreateProposalForm from "../Proposals/CreateProposalForm";
+
+interface ProjectRowProps {
+  index: number;
+  project: Project;
+}
 
 const statusStyle = {
   OPEN: {
@@ -21,7 +27,7 @@ const statusStyle = {
   },
 };
 
-function ProjectRow({ index, project }) {
+function ProjectRow({ index, project }: ProjectRowProps) {
   const { title, budget, deadline, status } = project;
 
   const [isOpen, setIsOpen] = useState(false);

@@ -1,19 +1,30 @@
 import { useForm } from "react-hook-form";
-import TextFieldInput from "../../UI/TextFieldInput";
+import RHFTextFieldInput from "../../../UI/RHFTextFieldInput";
+import Loader from "../../../UI/Loader";
 import useCreateProposal from "./useCreateProposal";
-import Loader from "../../UI/Loader";
 
-function CreateProposalForm({ onClose, projectId }) {
+interface CreateProposalFormProps {
+  onClose: () => void;
+  projectId: string;
+}
+
+interface CreateProposalFormValues {
+  description: string;
+  price: string;
+  duration: string;
+}
+
+function CreateProposalForm({ onClose, projectId }: CreateProposalFormProps) {
   const {
     register,
     handleSubmit,
     reset,
     formState: { errors },
-  } = useForm();
+  } = useForm<CreateProposalFormValues>();
 
-  const { isCreating, createProposal } = useCreateProposal();
+  const { isPending: isCreating, mutate: createProposal } = useCreateProposal();
 
-  const onSubmit = (data) => {
+  const onSubmit = (data: CreateProposalFormValues) => {
     const newProposal = { ...data, projectId };
 
     createProposal(newProposal, {
@@ -25,11 +36,8 @@ function CreateProposalForm({ onClose, projectId }) {
   };
 
   return (
-    <form
-      onSubmit={handleSubmit(onSubmit)}
-      className="space-y-6 text-right"
-    >
-      <TextFieldInput
+    <form onSubmit={handleSubmit(onSubmit)} className="space-y-6 text-right">
+      <RHFTextFieldInput
         label="توضیحات"
         name="description"
         register={register}
@@ -43,7 +51,7 @@ function CreateProposalForm({ onClose, projectId }) {
         errors={errors}
       />
 
-      <TextFieldInput
+      <RHFTextFieldInput
         label="هزینه"
         name="price"
         register={register}
@@ -54,7 +62,7 @@ function CreateProposalForm({ onClose, projectId }) {
         type="number"
       />
 
-      <TextFieldInput
+      <RHFTextFieldInput
         label="مدت زمان"
         name="duration"
         register={register}

@@ -1,11 +1,11 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { createProposalApi } from "../../Services/proposalService";
 import toast from "react-hot-toast";
+import { createProposalApi } from "../../../Services/proposalService";
 
 export default function useCreateProposal() {
   const queryClient = useQueryClient();
 
-  const { isPending: isCreating, mutate: createProposal } = useMutation({
+  return useMutation({
     mutationFn: createProposalApi,
 
     onSuccess: (data) => {
@@ -14,10 +14,10 @@ export default function useCreateProposal() {
       queryClient.invalidateQueries({ queryKey: ["proposals"] });
     },
 
-    onError: (err) => {
-      toast.error(err?.response?.data?.message);
+    onError: (error) => {
+      const message =
+        error instanceof Error ? error.message : "خطا در ایجاد درخواست جدید";
+      toast.error(message);
     },
   });
-
-  return { isCreating, createProposal };
 }
