@@ -23,7 +23,7 @@ import OwnerProject from "./Pages/Owner/OwnerProject";
 
 // Freelancer Pages and Layout
 import FreelancerLayout from "./Features/Freelancer/FreelancerLayout";
-import FreelancerDashboard from "./Pages/FreelancerDashboard";
+import FreelancerDashboard from "./Pages/Freelancer/FreelancerDashboard";
 import SubmittedProjects from "./Pages/SubmittedProjects";
 import FreelancerProposals from "./Pages/FreelancerProposals";
 

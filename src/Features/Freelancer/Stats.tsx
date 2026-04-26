@@ -1,8 +1,13 @@
 import { HiCheck, HiCollection, HiCurrencyDollar } from "react-icons/hi";
 import Stat from "../../UI/Stat";
 import { toPersianNumbersWithComma } from "../../Utils/toPersianNumbers";
+import type { Proposal } from "../../Types/proposalTypes";
 
-function Stats({ proposals }) {
+interface StatesProps {
+  proposals: Proposal[];
+}
+
+function Stats({ proposals }: StatesProps) {
   const numOfProposals = proposals.length;
 
   const acceptedProposals = proposals.filter(
