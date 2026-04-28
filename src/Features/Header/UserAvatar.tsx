@@ -2,8 +2,9 @@ import useUser from "../../Hooks/useUser";
 
 function UserAvatar() {
   const { isLoading, data } = useUser();
+  const { user } = data || {};
 
-  if (isLoading || !data)
+  if (isLoading)
     return (
       <div className="flex items-center">
         <img
@@ -14,7 +15,7 @@ function UserAvatar() {
       </div>
     );
 
-  if (data.user.isActive)
+  if (user?.isActive)
     return (
       <div className="flex items-center gap-x-2 text-secondary-600">
         <img
@@ -24,7 +25,7 @@ function UserAvatar() {
         />
 
         <span className="truncate text-nowrap text-sm md:text-base">
-          {data.user.name}
+          {user.name}
         </span>
       </div>
     );

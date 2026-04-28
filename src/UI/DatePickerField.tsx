@@ -1,6 +1,8 @@
-import DatePicker, { type Value } from "react-multi-date-picker";
+import DatePicker from "react-multi-date-picker";
+import type { Value } from "react-multi-date-picker";
 import persian from "react-date-object/calendars/persian";
 import persian_fa from "react-date-object/locales/persian_fa";
+
 import "react-multi-date-picker/styles/backgrounds/bg-dark.css";
 
 interface DatePickerFieldProps {
@@ -8,11 +10,10 @@ interface DatePickerFieldProps {
   name: string;
   date: Value;
   setDate: (value: Value) => void;
-  format: string;
 }
 
 function DatePickerField({ label, name, date, setDate }: DatePickerFieldProps) {
-  const isDarkMode = JSON.parse(localStorage.getItem("isDarkMode") || "");
+  const isDarkMode = localStorage.getItem("isDarkMode") === "true";
 
   return (
     <div>
@@ -36,4 +37,5 @@ function DatePickerField({ label, name, date, setDate }: DatePickerFieldProps) {
     </div>
   );
 }
+
 export default DatePickerField;

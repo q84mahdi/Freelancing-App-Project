@@ -15,16 +15,16 @@ const ROLES = {
 function HeaderMenu() {
   const { isLoading, data } = useUser();
 
-  if (isLoading || !data) return;
+  if (isLoading) return;
 
-  const { user } = data;
+  const { user } = data || {};
 
   return (
     <div>
       <ul className="flex items-center gap-x-2 md:gap-x-4">
-        {user.role !== "ADMIN" && <AdminLogin />}
+        {user?.role !== "ADMIN" && <AdminLogin />}
 
-        {user.isActive && (
+        {user?.isActive && (
           <li className="flex">
             <Link to={`/${ROLES[user.role]}/dashboard`}>
               <HiOutlineUser className="h-5 w-5 text-primary-800 hover:text-primary-900" />
@@ -36,7 +36,7 @@ function HeaderMenu() {
           <DarkModeToggle />
         </li>
 
-        <li className="flex">{user.isActive ? <Logout /> : <Login />}</li>
+        <li className="flex">{user?.isActive ? <Logout /> : <Login />}</li>
       </ul>
     </div>
   );

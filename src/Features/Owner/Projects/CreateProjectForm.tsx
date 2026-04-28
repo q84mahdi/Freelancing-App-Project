@@ -4,11 +4,11 @@ import useCategories from "../../../Hooks/useCategories";
 import RHFTextFieldInput from "../../../UI/RHFTextFieldInput";
 import RHFSelectOption from "../../../UI/RHFSelectOption";
 import TagInputField from "../../../UI/TagInputField";
-import DatePickerField from "../../../UI/DatePickerField";
 import Loader from "../../../UI/Loader";
 import type { Value } from "react-multi-date-picker";
 import useCreateProject from "./useCreateProject";
 import useEditProject from "./useEditProject";
+import DatePickerField from "../../../UI/DatePickerField";
 
 interface CreateProjectFormProps {
   onClose: () => void;
@@ -168,7 +168,6 @@ function CreateProjectForm({ onClose, projectToEdit }: CreateProjectFormProps) {
         name="deadline"
         date={date}
         setDate={setDate}
-        format="YYYY/MM/DD"
       />
 
       {isCreating || isEditing ? (

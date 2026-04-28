@@ -1,4 +1,4 @@
-import ProposalTable from "../Features/Proposals/ProposalTable";
+import ProposalTable from "../../Features/Freelancer/Proposals/ProposalTable";
 
 function FreelancerProposals() {
   return (
