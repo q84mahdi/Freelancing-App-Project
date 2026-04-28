@@ -5,11 +5,11 @@ import Table from "../../../UI/Table";
 import ProjectRow from "./ProjectRow";
 
 function ProjectsTable() {
-  const { isLoading, projects } = useProjects();
+  const { isLoading, data } = useProjects();
 
-  if (isLoading) return <Loader />;
+  if (isLoading || !data) return <Loader />;
 
-  if (!projects.length) return <Empty resourceName="پروژه ای" />;
+  if (!data.projects.length) return <Empty resourceName="پروژه ای" />;
 
   return (
     <Table>
@@ -22,7 +22,7 @@ function ProjectsTable() {
       </Table.Header>
 
       <Table.Body>
-        {projects.map((project, index) => (
+        {data.projects.map((project, index) => (
           <ProjectRow key={project._id} index={index} project={project} />
         ))}
       </Table.Body>

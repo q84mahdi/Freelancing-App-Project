@@ -4,7 +4,8 @@ import FilterDropDown from "../../../UI/FilterDropDown";
 import Filters from "../../../UI/Filters";
 
 function ProjectsHeader() {
-  const { transformedCategories } = useCategories();
+  const { data } = useCategories();
+  const { transformedCategoriesET = [] } = data || {};
 
   return (
     <div className="mb-8 flex items-center justify-between">
@@ -18,7 +19,7 @@ function ProjectsHeader() {
               label: "همه دسته بندی ها",
               value: "ALL",
             },
-            ...transformedCategories,
+            ...transformedCategoriesET,
           ]}
         />
 

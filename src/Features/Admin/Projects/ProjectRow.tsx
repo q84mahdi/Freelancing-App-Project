@@ -5,6 +5,7 @@ import {
   toPersianNumbersWithComma,
 } from "../../../Utils/toPersianNumbers";
 import toLocalDateShort from "../../../Utils/toLocalDateShort";
+import type { Project } from "../../../Types/projectTypes";
 
 const statusStyle = {
   OPEN: {
@@ -17,7 +18,12 @@ const statusStyle = {
   },
 };
 
-function ProjectRow({ index, project }) {
+interface ProjectRowProps {
+  index: number;
+  project: Project;
+}
+
+function ProjectRow({ index, project }: ProjectRowProps) {
   const { title, budget, deadline, status } = project;
 
   return (
