@@ -5,7 +5,7 @@ import { createCategoryApi } from "../../../Services/categoryService";
 export default function useCreateCategory() {
   const queryClient = useQueryClient();
 
-  const { isPending: isCreating, mutate: createCategory } = useMutation({
+  return useMutation({
     mutationFn: createCategoryApi,
 
     onSuccess: (data) => {
@@ -14,8 +14,10 @@ export default function useCreateCategory() {
       queryClient.invalidateQueries({ queryKey: ["categories"] });
     },
 
-    onError: (err) => toast.error(err?.response?.data?.message),
+    onError: (error) => {
+      const message =
+        error instanceof Error ? error.message : "خطا در ایجاد دسته‌بندی جدید";
+      toast.error(message);
+    },
   });
-
-  return { isCreating, createCategory };
 }

@@ -1,14 +1,35 @@
 import { useForm } from "react-hook-form";
-import TextFieldInput from "../../../UI/TextFieldInput";
 import Loader from "../../../UI/Loader";
+import RHFTextFieldInput from "../../../UI/RHFTextFieldInput";
 import useCreateCategory from "./useCreateCategory";
 import useEditCategory from "./useEditCategory";
 
-function CreateCategoryForm({ onClose, categoryToEdit = {} }) {
-  const editId = categoryToEdit._id;
+interface CreateCategoryFormProps {
+  onClose: () => void;
+  categoryToEdit?: {
+    _id: string;
+    title: string;
+    description: string;
+    englishTitle: string;
+    type: "project";
+  };
+}
+
+interface CreateCategoryFormValues {
+  title: string;
+  description: string;
+  englishTitle: string;
+  type: "project";
+}
+
+function CreateCategoryForm({
+  onClose,
+  categoryToEdit,
+}: CreateCategoryFormProps) {
+  const editId = categoryToEdit?._id || "";
   const isEditSession = Boolean(editId);
 
-  const { title, description, englishTitle, type } = categoryToEdit;
+  const { title, description, englishTitle, type } = categoryToEdit || {};
 
   let editValues = {};
   if (isEditSession) {
@@ -20,17 +41,19 @@ function CreateCategoryForm({ onClose, categoryToEdit = {} }) {
     };
   }
 
-  const { isCreating, createCategory } = useCreateCategory();
-  const { isEditing, editCategory } = useEditCategory();
+  const { isPending: isCreating, mutate: createCategory } = useCreateCategory();
+  const { isPending: isEditing, mutate: editCategory } = useEditCategory();
 
   const {
     register,
     handleSubmit,
     reset,
     formState: { errors },
-  } = useForm({ defaultValues: isEditSession ? editValues : { type: "project" } });
+  } = useForm<CreateCategoryFormValues>({
+    defaultValues: isEditSession ? editValues : { type: "project" },
+  });
 
-  const onSubmit = (data) => {
+  const onSubmit = (data: CreateCategoryFormValues) => {
     const newCategory = { ...data };
 
     if (isEditSession) {
@@ -55,7 +78,7 @@ function CreateCategoryForm({ onClose, categoryToEdit = {} }) {
 
   return (
     <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
-      <TextFieldInput
+      <RHFTextFieldInput
         label="عنوان"
         name="title"
         register={register}
@@ -70,7 +93,7 @@ function CreateCategoryForm({ onClose, categoryToEdit = {} }) {
         errors={errors}
       />
 
-      <TextFieldInput
+      <RHFTextFieldInput
         label="توضیحات"
         name="description"
         register={register}
@@ -85,7 +108,7 @@ function CreateCategoryForm({ onClose, categoryToEdit = {} }) {
         errors={errors}
       />
 
-      <TextFieldInput
+      <RHFTextFieldInput
         label="عنوان انگلیسی"
         name="englishTitle"
         register={register}
@@ -96,7 +119,7 @@ function CreateCategoryForm({ onClose, categoryToEdit = {} }) {
         errors={errors}
       />
 
-      <TextFieldInput
+      <RHFTextFieldInput
         label="نوع"
         name="type"
         register={register}

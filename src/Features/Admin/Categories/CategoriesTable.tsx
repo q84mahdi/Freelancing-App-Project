@@ -5,11 +5,11 @@ import Table from "../../../UI/Table";
 import CategoryRow from "./CategoryRow";
 
 function CategoriesTable() {
-  const { isLoading, rawCategories: categories } = useCategories();
+  const { isLoading, data } = useCategories();
 
-  if (isLoading) return <Loader />;
+  if (isLoading || !data) return <Loader />;
 
-  if (!categories.length) return <Empty resourceName={"دسته بندی"} />;
+  if (!data.categories.length) return <Empty resourceName={"دسته بندی"} />;
 
   return (
     <Table>
@@ -23,7 +23,7 @@ function CategoriesTable() {
       </Table.Header>
 
       <Table.Body>
-        {categories.map((category, index) => (
+        {data.categories.map((category, index) => (
           <CategoryRow key={category._id} category={category} index={index} />
         ))}
       </Table.Body>

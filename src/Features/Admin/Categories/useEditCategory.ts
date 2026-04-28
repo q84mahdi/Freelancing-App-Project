@@ -5,7 +5,7 @@ import { editCategoryApi } from "../../../Services/categoryService";
 export default function useEditCategory() {
   const queryClient = useQueryClient();
 
-  const { isPending: isEditing, mutate: editCategory } = useMutation({
+  return useMutation({
     mutationFn: editCategoryApi,
 
     onSuccess: (data) => {
@@ -14,8 +14,10 @@ export default function useEditCategory() {
       queryClient.invalidateQueries({ queryKey: ["categories"] });
     },
 
-    onError: (err) => toast.error(err?.response?.data?.message),
+    onError: (error) => {
+      const message =
+        error instanceof Error ? error.message : "خطا در ویرایش دسته‌بندی";
+      toast.error(message);
+    },
   });
-
-  return { isEditing, editCategory };
 }

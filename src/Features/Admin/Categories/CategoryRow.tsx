@@ -8,12 +8,18 @@ import truncateText from "../../../Utils/truncateText";
 import ConfirmDelete from "../../../UI/ConfirmDelete";
 import useRemoveCategory from "./useRemoveCategory";
 import { toPersianNumbers } from "../../../Utils/toPersianNumbers";
+import type { Category } from "../../../Types/categoryTypes";
 
-function CategoryRow({ index, category }) {
+interface CategoryRowProps {
+  index: number;
+  category: Category;
+}
+
+function CategoryRow({ index, category }: CategoryRowProps) {
   const [isEditOpen, setIsEditOpen] = useState(false);
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);
 
-  const { isDeleting, removeCategory } = useRemoveCategory();
+  const { isPending: isDeleting, mutate: removeCategory } = useRemoveCategory();
 
   return (
     <Table.Row>

@@ -33,7 +33,7 @@ import AdminDashboard from "./Pages/Admin/AdminDashboard";
 import Users from "./Pages/Admin/Users";
 import Projects from "./Pages/Admin/Projects";
 import Proposals from "./Pages/Admin/Proposals";
-import Categories from "./Pages/Categories";
+import Categories from "./Pages/Admin/Categories";
 
 const queryClient = new QueryClient();
 

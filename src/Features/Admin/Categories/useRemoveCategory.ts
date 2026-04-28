@@ -5,7 +5,7 @@ import { removeCategoryApi } from "../../../Services/categoryService";
 export default function useRemoveCategory() {
   const queryClient = useQueryClient();
 
-  const { isPending: isDeleting, mutate: removeCategory } = useMutation({
+  return useMutation({
     mutationFn: removeCategoryApi,
 
     onSuccess: (data) => {
@@ -14,8 +14,10 @@ export default function useRemoveCategory() {
       queryClient.invalidateQueries({ queryKey: ["categories"] });
     },
 
-    onError: (err) => toast.error(err?.response?.data?.message),
+    onError: (error) => {
+      const messgae =
+        error instanceof Error ? error.message : "خطا در حذف دسته‌بندی";
+      toast.error(messgae);
+    },
   });
-
-  return { isDeleting, removeCategory };
 }
