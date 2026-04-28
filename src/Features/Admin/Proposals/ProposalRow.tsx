@@ -1,9 +1,15 @@
+import type { Proposal } from "../../../Types/proposalTypes";
 import Table from "../../../UI/Table";
 import {
   toPersianNumbers,
   toPersianNumbersWithComma,
 } from "../../../Utils/toPersianNumbers";
 import truncateText from "../../../Utils/truncateText";
+
+interface ProposalRowProps {
+  index: number;
+  proposal: Proposal;
+}
 
 const statusStyle = [
   {
@@ -20,7 +26,7 @@ const statusStyle = [
   },
 ];
 
-function ProposalRow({ index, proposal }) {
+function ProposalRow({ index, proposal }: ProposalRowProps) {
   const { description, duration, price, status } = proposal;
 
   return (

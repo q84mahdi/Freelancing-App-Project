@@ -5,11 +5,11 @@ import Table from "../../../UI/Table";
 import ProposalRow from "./ProposalRow";
 
 function ProposalsTable() {
-  const { isLoading, proposals } = useProposals();
+  const { isLoading, data } = useProposals();
 
-  if (isLoading) return <Loader />;
+  if (isLoading || !data) return <Loader />;
 
-  if (!proposals.length) return <Empty resourceName="درخواستی" />;
+  if (!data.proposals.length) return <Empty resourceName="درخواستی" />;
 
   return (
     <Table>
@@ -22,7 +22,7 @@ function ProposalsTable() {
       </Table.Header>
 
       <Table.Body>
-        {proposals.map((proposal, index) => (
+        {data.proposals.map((proposal, index) => (
           <ProposalRow key={proposal._id} index={index} proposal={proposal} />
         ))}
       </Table.Body>

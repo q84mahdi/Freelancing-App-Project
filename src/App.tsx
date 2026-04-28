@@ -32,7 +32,7 @@ import AdminLayout from "./Features/Admin/AdminLayout";
 import AdminDashboard from "./Pages/Admin/AdminDashboard";
 import Users from "./Pages/Admin/Users";
 import Projects from "./Pages/Admin/Projects";
-import Proposals from "./Pages/Proposals";
+import Proposals from "./Pages/Admin/Proposals";
 import Categories from "./Pages/Categories";
 
 const queryClient = new QueryClient();
